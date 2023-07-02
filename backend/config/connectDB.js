@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 
 const connectDB = (req, res) => {
-  mongoose.connect(process.env.MONGO_URL);
+  const connectionparams = { useNewUrlParser: true };
+  mongoose.connect(process.env.MONGO_URL, connectionparams);
   mongoose.set("runValidators", true);
-  mongoose.set("strictQuery", true);
+  mongoose.set("strictQuery", false);
   mongoose.connection.on("connecting", () => {
     console.log("Start connecting to Mongoose server");
   });

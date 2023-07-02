@@ -5,6 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { config } from "dotenv";
 import connectDB from "./config/connectDB.js";
+import { register } from "./controllers/auth.js";
 config();
 connectDB();
 //CONFIGURATION//
@@ -30,6 +31,9 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
+
+/* ROUTES WITH FILES */
+app.post("/api/auth/register", upload.single("picture"), register);
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server Listening on port ${port}...`);
