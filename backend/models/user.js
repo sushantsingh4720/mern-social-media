@@ -27,10 +27,11 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "password is required"],
       min: 6,
+      select: false,
     },
-    picturePath: {
-      type: String,
-      default: "",
+    avatar: {
+      public_id: String,
+      url: String,
     },
     friends: {
       type: Array,

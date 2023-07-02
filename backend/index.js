@@ -1,43 +1,37 @@
 import express from "express";
 import cors from "cors";
-import multer from "multer";
-import path from "path";
-import { fileURLToPath } from "url";
 import { config } from "dotenv";
+import fileUpload from "express-fileupload";
+import cloudinary from "cloudinary";
 import connectDB from "./config/connectDB.js";
-import { register } from "./controllers/auth.js";
 import authRoute from "./routes/auth.js";
+import authMiddleware from "./middleware.js/auth.js";
 config();
 connectDB();
-//CONFIGURATION//
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(cors());
-app.use(express.json({ limit: "30mb", extended: true }));
-app.use(express.urlencoded({ limit: "30mb", extended: true }));
-app.use("assests", express.static(path.join(__dirname, "public/assets")));
+app.use(express.json({ limit: "50mb", extended: true }));
+app.use(express.urlencoded({ limit: "50xmb", extended: true }));
+app.use(
+  fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+    useTempFiles: true,
+  })
+);
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
 app.get("/", (req, res) => {
   res.status(200).json({ success: true, message: "API is working" });
 });
 
-//FILE STORAGE//
-const storage = multer.diskStorage({
-  destinatio: (cb) => {
-    cb(null, "public/assets");
-  },
-  filename: (file, cb) => {
-    cb(null, file.originalname);
-  },
-});
-const upload = multer({ storage });
-
-/* ROUTES WITH FILES */
-app.post("/api/auth/register", upload.single("picture"), register);
-
 //ROUTES
 app.use("/api/auth", authRoute);
+app.use(authMiddleware);
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server Listening on port ${port}...`);

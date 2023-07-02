@@ -30,14 +30,14 @@ const loginSchemaValidation = (body) => {
   const schema = Joi.object({
     email: Joi.string()
       .email()
-      .matches(
+      .pattern(
         /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)+$/,
         "Please enter valid email"
       )
       .required("Please enter your email"),
     password: Joi.string()
       .min(6)
-      .matches(
+      .pattern(
         /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*()_+]{6,20}$/,
         "Please enter valid password"
       )

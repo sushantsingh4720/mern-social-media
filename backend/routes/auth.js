@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { confirmAccount } from "../controllers/auth.js";
+import { confirmAccount, login, register } from "../controllers/auth.js";
 const router = Router();
-router.post("auth/login", login);
+router.post("/register", register);
+router.post("/login", login);
 router.get("/confirm/:confirmationToken", confirmAccount);
 export default router;

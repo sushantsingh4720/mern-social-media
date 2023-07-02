@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
+import cloudinary from "cloudinary";
+import fs from "fs";
 import User from "../models/user.js";
 import sendEmail from "../services/sendEmail.js";
 import {
@@ -19,6 +21,17 @@ const register = async (req, res) => {
       return res
         .status(409)
         .json({ error: true, message: "User already exists" });
+    if (req.files) {
+      let avatar = req.files.avatar.tempFilePath;
+      const mycloud = await cloudinary.v2.uploader.upload(avatar, {
+        folder: "userAvatar",
+      });
+      req.body = {
+        ...req.body,
+        avatar: { public_id: mycloud.public_id, url: mycloud.url },
+      };
+      fs.rmSync("./tmp", { recursive: true });
+    }
     const salt = await bcrypt.genSalt(Number(process.env.SALT_ROUNDS));
     const hashPassword = await bcrypt.hash(req.body.password, salt);
     const confirmationToken = crypto.randomBytes(20).toString("hex");
@@ -77,7 +90,7 @@ const register = async (req, res) => {
     sendEmail(mailOptions);
     res.status(201).json({ success: true, message: "Successfully registered" });
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     res
       .status(500)
       .json({ error: true, message: error.message || "Internal Server Error" });
@@ -91,7 +104,9 @@ const login = async (req, res) => {
         .status(400)
         .json({ error: true, message: error.details[0].message });
     }
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: req.body.email }).select(
+      "password"
+    );
     if (!user) {
       return res.status(404).json({ error: true, message: "User not found" });
     }
@@ -166,7 +181,7 @@ const login = async (req, res) => {
         .status(401)
         .json({ error: true, message: "Invalid email or password" });
 
-    const token = generateToken(user);
+    const token = await generateToken(user);
 
     res.status(200).json({
       success: true,
