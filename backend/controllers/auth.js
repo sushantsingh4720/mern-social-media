@@ -76,8 +76,78 @@ const register = async (req, res) => {
     sendEmail(mailOptions);
     res.status(201).json({ success: true, message: "Successfully registered" });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: true, message: "Internal Server Error" });
+    // console.log(error);
+    res
+      .status(500)
+      .json({ error: true, message: error.message || "Internal Server Error" });
   }
 };
-export { register };
+const confirmAccount = async (req, res) => {
+  try {
+    const { confirmationToken } = req.params;
+    const confirmationCode = crypto
+      .createHash("sha256")
+      .update(confirmationToken)
+      .digest("hex");
+    const user = await User.findOneAndUpdate(
+      { confirmationCode },
+      { status: "active", confirmationCode: null },
+      { new: true }
+    );
+
+    if (!user)
+      return res.send(`<!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Error</title>
+  </head>
+  <body>
+      <div style="display: flex;align-items: center;justify-content: center;">
+          <div style="width: 350px;">
+              <div style="display: flex; flex-direction: column; align-items: center;padding-top: 80px;">
+                  <div style="display: flex; justify-content: center;">
+                      <img src="https://nika.shop/wp-content/uploads/2020/01/fail-png-7.png" width="120px">
+                  </div>
+                  <h2>Something Went Wrong!</h2>
+                  <p style="color: red;">Confirmation Link is expire or invalid</p>
+                  <p>Please login again to generate a valid link</p>
+              </div>
+          </div>
+      </div>
+  </body>
+  </html>`);
+    res.send(`<!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Success</title>
+  </head>
+  <body>
+      <div style="display: flex;align-items: center;justify-content: center;">
+          <div style="width: 350px;">
+              <div style="display: flex; flex-direction: column; align-items: center;padding-top: 80px;">
+                  <div style="display: flex; justify-content: center;">
+                      <img src="https://freepngimg.com/thumb/success/6-2-success-png-image.png" width="120px">
+                  </div>
+                  <h2>Successful!</h2>
+                  <p style="color: green;">Your Account has been Verified!</p>
+                  <p>Now, You are able to Login.</p>
+              </div>
+          </div>
+      </div>
+  </body>
+  </html>`);
+  } catch (error) {
+    // console.log(error);
+    res.status(500).json({
+      error: true,
+      message: error.message || "Internal Server Error",
+    });
+  }
+};
+export { register, confirmAccount };
