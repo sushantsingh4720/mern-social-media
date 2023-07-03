@@ -19,7 +19,7 @@ const Login = () => {
         <div className="right">
           <h1>Login</h1>
           <form>
-            <input type="email" placeholder="Enter your email" />
+            <input type="email" placeholder="Email" />
             <input type="password" placeholder="Password" />
             <button>Login</button>
           </form>

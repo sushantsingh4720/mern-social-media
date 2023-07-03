@@ -1,0 +1,131 @@
+.register {
+  width: 100vw;
+  height: 100vh;
+  background-color: #2779a7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .card {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    border-radius: 10px;
+    min-height: 600px;
+    overflow: hidden;
+
+    .left {
+      flex: 1;
+      padding: 50px;
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+      justify-content: center;
+      color: #2779a7;
+
+      h1 {
+        font-size: 50px;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        input {
+          padding: 10px 5px;
+          font-size: 1rem;
+          outline: none !important;
+          transition: scale 500ms;
+        }
+        input:focus {
+          border: 1px solid #2779a7;
+          scale: 1.2;
+          box-shadow: 0 0 10px #719ece;
+        }
+
+        .registerImage {
+          display: flex;
+          align-items: center;
+
+          img {
+            width: 3vmax;
+            border-radius: 100%;
+          }
+          input {
+            display: flex;
+            padding: 0%;
+            width: 100%;
+          }
+
+          input::file-selector-button {
+            cursor: pointer;
+            width: 100%;
+            z-index: 2;
+            height: 5vh;
+            border: none;
+            margin: 0%;
+            font: 400 0.8vmax cursive;
+            transition: all 0.5s;
+            padding: 0 1vmax;
+            color: rgba(0, 0, 0, 0.623);
+            background-color: rgb(255, 255, 255);
+          }
+          input::file-selector-button:hover {
+            background-color: rgb(235, 235, 235);
+          }
+        }
+
+        button {
+          width: 60%;
+          padding: 10px;
+          cursor: pointer;
+          color: white;
+          border: none;
+          background-color: #2779a7;
+          transition: background-color 1s;
+          font-weight: bold;
+          transition: scale 500ms;
+        }
+        button:hover {
+          color: white;
+          background-color: #004369;
+          scale: 1.2;
+        }
+      }
+    }
+    .right {
+      flex: 1;
+      padding: 50px;
+      background: linear-gradient(rgba(39, 11, 96, 0.5), rgba(39, 11, 96, 0.5)),
+        url("https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600")
+          center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      gap: 30px;
+      display: flex;
+      flex-direction: column;
+      color: white;
+      h1 {
+        font-size: 80px;
+        line-height: 80px;
+      }
+
+      span {
+        font-size: 16px;
+      }
+      button {
+        width: 60%;
+        padding: 10px;
+        cursor: pointer;
+        color: #2779a7;
+        border: none;
+        background-color: white;
+        font-weight: bold;
+      }
+      button:hover {
+        background-color: #2779a7;
+        color: white;
+      }
+    }
+  }
+}
