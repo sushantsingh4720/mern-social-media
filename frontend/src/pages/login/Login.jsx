@@ -1,6 +1,16 @@
+import { useState } from "react";
 import "./Login.scss";
 import { Link } from "react-router-dom";
 const Login = () => {
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const onSubmitHandler = async (e) => {
+    setLoading(true);
+    e.preventDefault();
+    const email = e.target[0].value;
+    const password = e.target[1].value;
+    console.log(email, password);
+  };
   return (
     <div className="login">
       <div className="card">
@@ -21,11 +31,15 @@ const Login = () => {
         </div>
         <div className="right">
           <h1>Login</h1>
-          <form>
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+          <form onSubmit={onSubmitHandler}>
+            <input type="email" name="email" placeholder="Email" />
+            <input type="password" name="password" placeholder="Password" />
 
-            <button>Login</button>
+            <button disabled={loading} type="submit">
+              {!loading ? "Login" : "please wait..."}
+            </button>
+
+            {error && <span>Something went wrong</span>}
           </form>
         </div>
       </div>

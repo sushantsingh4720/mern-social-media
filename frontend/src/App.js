@@ -7,9 +7,10 @@ import {
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
+
 function App() {
   const ProtectedRoute = ({ children }) => {
-    if (true) {
+    if (false) {
       return <Navigate to="/login" />;
     }
 
