@@ -51,7 +51,7 @@ const Login = () => {
             <button disabled={loading} type="submit">
               {!loading ? "Login" : "please wait..."}
             </button>
-            {error && <span>display error message</span>}
+            {error && <span>Something went wrong</span>}
           </form>
         </div>
       </div>

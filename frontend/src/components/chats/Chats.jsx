@@ -1,3 +1,4 @@
+import "./Chats.scss";
 import { doc, onSnapshot } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../store/authContext";
@@ -11,10 +12,13 @@ const Chats = () => {
   const { dispatch } = useContext(ChatContext);
 
   useEffect(() => {
-    const getChats = () => {
-      const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
-        setChats(doc.data());
-      });
+    const getChats = async () => {
+      const unsub = await onSnapshot(
+        doc(db, "userChats", currentUser.uid),
+        (doc) => {
+          setChats(doc.data());
+        }
+      );
 
       return () => {
         unsub();
@@ -38,6 +42,7 @@ const Chats = () => {
             key={chat[0]}
             onClick={() => handleSelect(chat[1].userInfo)}
           >
+            {console.log(chat[1])}
             <img src={chat[1].userInfo.photoURL} alt="" />
             <div className="userChatInfo">
               <span>{chat[1].userInfo.displayName}</span>

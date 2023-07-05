@@ -75,7 +75,7 @@ const Register = () => {
             />
             <div className="registerImage">
               <img src={profileImage} alt="Avatar Preview" />
-              <input type="file" name="photoURL" accept="image/*" />
+              <input type="file" name="photoURL" accept="image/*" required />
             </div>
             {/* <input required style={{ display: "none" }} type="file" id="file" />
             <label htmlFor="file">
