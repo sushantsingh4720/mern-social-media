@@ -23,12 +23,12 @@
   .container {
     border: 1px solid white;
     border-radius: 10px;
-    width: 65%;
-    height: 80%;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     overflow: hidden;
     @include tablet {
-      width: 90%;
+      width: 100%;
     }
   }
 }

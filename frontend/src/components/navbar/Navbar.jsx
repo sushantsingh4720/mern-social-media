@@ -1,17 +1,16 @@
 import "./Navbar.scss";
-import React from "react";
+import React, { useContext } from "react";
 import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
+import { AuthContext } from "../../store/authContext";
 const Navbar = () => {
+  const { currentUser } = useContext(AuthContext);
   return (
     <div className="navbar">
       <span className="logo">let,s come together</span>
       <div className="user">
-        <img
-          src="https://res.cloudinary.com/dol4aj9y4/image/upload/v1688320044/userAvatar/dnerl8jlx79xrnepqiu9.jpg"
-          alt=""
-        />
-        <span>sushant</span>
+        <img src={currentUser?.photoURL} alt="" />
+        <span>{currentUser.displayName}</span>
         <button onClick={() => signOut(auth)}>logout</button>
       </div>
     </div>
