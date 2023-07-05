@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import "./Register.scss";
+import { Link } from "react-router-dom";
 const Register = () => {
   const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
   return (
@@ -15,6 +16,11 @@ const Register = () => {
               <img src={avatarPreview} alt="Avatar Preview" />
               <input type="file" name="avatar" accept="image/*" />
             </div>
+            {/* <input required style={{ display: "none" }} type="file" id="file" />
+            <label htmlFor="file">
+              <img src={avatarPreview} alt="" />
+              <span>Add an avatar</span>
+            </label> */}
             <input type="password" placeholder="Password" />
             <button>Register</button>
           </form>
@@ -30,7 +36,9 @@ const Register = () => {
             positive change"
           </p>
           <span>Do you have an account?</span>
-          <button>Login</button>
+          <Link to="/login">
+            <button>Login</button>
+          </Link>
         </div>
       </div>
     </div>
