@@ -92,7 +92,7 @@ const Register = () => {
               {!loading ? "Register" : "please wait..."}
             </button>
             {loading && "Uploading and compressing the image please wait..."}
-            {error && <span>{error}</span>}
+            {error && <span>display error message</span>}
           </form>
         </div>
         <div className="right">

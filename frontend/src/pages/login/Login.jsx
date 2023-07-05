@@ -1,7 +1,10 @@
 import { useState } from "react";
 import "./Login.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 const Login = () => {
+  const navigate = useNavigate();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const onSubmitHandler = async (e) => {
@@ -9,7 +12,17 @@ const Login = () => {
     e.preventDefault();
     const email = e.target[0].value;
     const password = e.target[1].value;
-    console.log(email, password);
+
+    await signInWithEmailAndPassword(auth, email, password)
+      .then((res) => {
+        console.log(res.user);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setError(true);
+        setLoading(false);
+      });
   };
   return (
     <div className="login">
@@ -38,8 +51,7 @@ const Login = () => {
             <button disabled={loading} type="submit">
               {!loading ? "Login" : "please wait..."}
             </button>
-
-            {error && <span>Something went wrong</span>}
+            {error && <span>display error message</span>}
           </form>
         </div>
       </div>
