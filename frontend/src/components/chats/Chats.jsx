@@ -6,27 +6,31 @@ import { ChatContext } from "../../store/chatContext";
 import { db } from "../../firebase";
 
 const Chats = () => {
-  const [chats, setChats] = useState([]);
+  const [chats, setChats] = useState({});
 
   const { currentUser } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
 
   useEffect(() => {
-    const getChats = async () => {
-      const unsub = await onSnapshot(
-        doc(db, "userChats", currentUser.uid),
-        (doc) => {
-          setChats(doc.data());
-        }
-      );
+    const getChats = () => {
+      const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+        setChats(doc.data());
+
+        const topChat = Object.entries(doc.data())?.sort(
+          (a, b) => b[1].date - a[1].date
+        );
+
+        topChat.length &&
+          dispatch({ type: "CHANGE_USER", payload: topChat[0][1].userInfo });
+      });
 
       return () => {
         unsub();
       };
     };
-
+    console.log("hii");
     currentUser.uid && getChats();
-  }, [currentUser.uid]);
+  }, [currentUser.uid, dispatch]);
 
   const handleSelect = (u) => {
     dispatch({ type: "CHANGE_USER", payload: u });
@@ -42,7 +46,6 @@ const Chats = () => {
             key={chat[0]}
             onClick={() => handleSelect(chat[1].userInfo)}
           >
-            {console.log(chat[1])}
             <img src={chat[1].userInfo.photoURL} alt="" />
             <div className="userChatInfo">
               <span>{chat[1].userInfo.displayName}</span>
