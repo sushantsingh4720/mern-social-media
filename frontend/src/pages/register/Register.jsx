@@ -48,14 +48,12 @@ const Register = () => {
             await setDoc(doc(db, "userChats", res.user.uid), {});
             navigate("/");
           } catch (err) {
-            console.log(err);
             setError(true);
             setLoading(false);
           }
         });
       });
     } catch (err) {
-      console.log(err);
       setError(true);
       setLoading(false);
     }

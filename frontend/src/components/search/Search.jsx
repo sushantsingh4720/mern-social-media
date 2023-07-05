@@ -25,7 +25,6 @@ const Search = () => {
       collection(db, "users"),
       where("displayName", "==", username)
     );
-    console.log(q);
 
     try {
       const querySnapshot = await getDocs(q);
@@ -34,7 +33,6 @@ const Search = () => {
         setUser(doc.data());
       });
     } catch (err) {
-      console.log(err);
       setErr(true);
     }
   };

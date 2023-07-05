@@ -28,7 +28,7 @@ const Chats = () => {
         unsub();
       };
     };
-    console.log("hii");
+
     currentUser.uid && getChats();
   }, [currentUser.uid, dispatch]);
 
