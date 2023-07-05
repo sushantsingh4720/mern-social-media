@@ -9,8 +9,7 @@ const Register = () => {
         <div className="left">
           <h1>Register</h1>
           <form>
-            <input type="text" placeholder="First Name" />
-            <input type="text" placeholder="Last Name" />
+            <input type="text" placeholder="Name" />
             <input type="email" placeholder="Enter your email" />
             <div className="registerImage">
               <img src={avatarPreview} alt="Avatar Preview" />
