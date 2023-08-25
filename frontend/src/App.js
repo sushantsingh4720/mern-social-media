@@ -9,15 +9,16 @@ import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import { useContext } from "react";
 import { AuthContext } from "./store/authContext";
-
+import Loader from "../src/components/loader/Loader";
 function App() {
-  const { currentUser } = useContext(AuthContext);
-  const ProtectedRoute = ({ children }) => {
-    if (!currentUser) {
-      return <Navigate to="/login" />;
-    }
+  const { currentUser, loading } = useContext(AuthContext);
 
-    return children;
+  const ProtectedRoute = ({ children }) => {
+    if (loading === false) {
+      if (!currentUser) return <Navigate to="/login" />;
+      return children;
+    }
+    return <Loader />;
   };
   return (
     <Router>

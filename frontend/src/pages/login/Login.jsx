@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Login.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { AuthContext } from "../../store/authContext";
+
 const Login = () => {
+  const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [isLoading, setLoading] = useState(false);
   const onSubmitHandler = async (e) => {
     setLoading(true);
     e.preventDefault();
@@ -18,10 +21,15 @@ const Login = () => {
         navigate("/");
       })
       .catch((error) => {
-        setError(true);
+        setError(error.message);
         setLoading(false);
       });
   };
+  useEffect(() => {
+    return () => {
+      if (currentUser) navigate("/");
+    };
+  }, [currentUser, navigate]);
   return (
     <div className="login">
       <div className="card">
@@ -46,10 +54,10 @@ const Login = () => {
             <input type="email" name="email" placeholder="Email" />
             <input type="password" name="password" placeholder="Password" />
 
-            <button disabled={loading} type="submit">
-              {!loading ? "Login" : "please wait..."}
+            <button disabled={isLoading} type="submit">
+              {!isLoading ? "Login" : "please wait..."}
             </button>
-            {error && <span>Something went wrong</span>}
+            {error && <span>{error}</span>}
           </form>
         </div>
       </div>

@@ -7,7 +7,7 @@ import "./Register.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 const Register = () => {
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const onSubmitHandler = async (e) => {
@@ -48,13 +48,14 @@ const Register = () => {
             await setDoc(doc(db, "userChats", res.user.uid), {});
             navigate("/");
           } catch (err) {
-            setError(true);
+            setError(err.message);
             setLoading(false);
           }
         });
       });
     } catch (err) {
-      setError(true);
+      console.log(err);
+      setError(err.message);
       setLoading(false);
     }
   };
@@ -90,7 +91,7 @@ const Register = () => {
               {!loading ? "Register" : "please wait..."}
             </button>
             {loading && "Uploading and compressing the image please wait..."}
-            {error && <span>display error message</span>}
+            {error && <span>{error}</span>}
           </form>
         </div>
         <div className="right">
