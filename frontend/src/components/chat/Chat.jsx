@@ -6,7 +6,7 @@ import Messages from "../messages/Messages";
 import Input from "../input/Input";
 import { useContext } from "react";
 import { ChatContext } from "../../store/chatContext";
-
+import profileImage from "../../images/Profile.png";
 const Chat = () => {
   const { data } = useContext(ChatContext);
 
@@ -14,7 +14,10 @@ const Chat = () => {
     <div className="chat">
       <div className="chatInfo">
         <div className="profileTilte">
-          <img src={data.user?.photoURL} alt="" />
+          <img
+            src={data.user?.photoURL ? data.user.photoURL : profileImage}
+            alt=""
+          />
           <span>{data.user?.displayName}</span>
         </div>
         <div className="chatIcons">

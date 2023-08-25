@@ -6,11 +6,11 @@ import { AuthContextProvider } from "./store/authContext";
 import { ChatContextProvider } from "./store/chatContext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <AuthContextProvider>
-      <ChatContextProvider>
+  <AuthContextProvider>
+    <ChatContextProvider>
+      <React.StrictMode>
         <App />
-      </ChatContextProvider>
-    </AuthContextProvider>
-  </React.StrictMode>
+      </React.StrictMode>
+    </ChatContextProvider>
+  </AuthContextProvider>
 );

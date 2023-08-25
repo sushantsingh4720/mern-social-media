@@ -4,7 +4,7 @@ export const ChatContext = createContext();
 export const ChatContextProvider = ({ children }) => {
   const { currentUser } = useContext(AuthContext);
   const INITIAL_STATE = {
-    chatId: "null",
+    chatId: null,
     user: {},
   };
 
@@ -17,6 +17,11 @@ export const ChatContextProvider = ({ children }) => {
             currentUser.uid > action.payload.uid
               ? currentUser.uid + action.payload.uid
               : action.payload.uid + currentUser.uid,
+        };
+      case "CLEAR_USER":
+        return {
+          chatId: null,
+          user: {},
         };
 
       default:
